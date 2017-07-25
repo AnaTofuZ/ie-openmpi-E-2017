@@ -1,27 +1,30 @@
-//素数判定(試し割り法)並列化なし
+//素数判定(エラトステネスの篩)並列化なし
 
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
 
-#define N 10000000   //Nまでの素数を調べる
+#define N 100000   //Nまでの素数を調べる
 
 int main(){
-
-    int i,j,n;
+    int i,j;
+    int array[N-1];
     time_t start,end;
-    
+
     start = time(NULL);
 
-    for(i = 2; i <= N; i++) {
-        n = 0;  //約数の個数を初期化
-        
-        for(j = 1; j <= sqrt(i); j++) { //√iまでの数を試し割り
-            if(i%j == 0) n++;   //√iまでの約数の個数のカウント
-            if(n > 1) break;    //√iまでの約数の個数が2個だと試し割りを終了
+    for(i = 2; i <= N; i++) {   //2からNまでの数を配列に格納
+        array[i] = i;
+    }
+
+    for(i = 2; i < sqrt(N); i++) {  //エラトステネスの篩(なんか腑に落ちていない)
+        for(j = 2*i; j <= N; j = j + i) {
+            array[j] = 0;
         }
-        //√iまでの約数の個数が1個の時(約数が1の時)素数である
-        // if(n == 1) printf("%d\n",i);
+    }
+    
+    for(i = 0; i <= N; i++) {   //素数を表示
+        if(array[i] != 0) printf("%d\n",array[i]);
     }
 
     end = time(NULL);
