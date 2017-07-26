@@ -10,10 +10,14 @@
 int main(){
 
     int i,j,n;
-    time_t start,end;
+    // time_t start,end;
+    struct timeval start,end;
+
     omp_set_num_threads(16);    //スレッド数を変更
     
-    start = time(NULL);
+    // start = time(NULL);
+    gettimeofday(&start, NULL); //測定開始
+
     #pragma omp parallel for
     for(i = 2; i <= N; i++) {
         n = 0;  //約数の個数を初期化
@@ -26,6 +30,8 @@ int main(){
         // if(n == 1) printf("%d\n",i);
     }
 
-    end = time(NULL);
-    printf("%ld sec\n",end - start);
+    // end = time(NULL);
+    gettimeofday(&end, NULL);   //測定終了
+    // printf("%ld sec\n",end - start);
+    printf("%f sec\n", (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec)*1.0E-6);
 }

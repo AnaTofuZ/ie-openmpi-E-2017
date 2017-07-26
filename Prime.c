@@ -9,6 +9,7 @@
 int main(){
 
     int i,j,n;
+    // time_t start,end;
     struct timeval start,end;
     
     // start = time(NULL);
