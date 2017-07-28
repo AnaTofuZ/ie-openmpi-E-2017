@@ -7,7 +7,7 @@
 
 
 ---
-## アジェンダ
+## 内容
 
 - OpenMPについて
 - Pthreadとの比較実験
@@ -21,4 +21,43 @@
 ## OpenMPについて
 
 +++
+OpenMP は非営利団体 
+OpenMP Architecture Review Board（ARB）によって規定されている業界標準規格です。
+**共有メモリ型** 並列計算機用のプログラムの並列化を記述するための指示文、ライブラリ関数、環境変数などが規定されています。
+
++++
+
+### 特徴
+
+- Pthreadなどと比較して簡易な記述
+- 基本のC言語のソースコードにあまり手をつけずに作る事が可能
+- 最近のコンパイラに標準搭載され始めている
+    - Macでも動くぞ!!
+
+### サンプルコード
+
+``` C
+#include<stdio.h>
+#include<omp.h>
+
+int main(){
+    int a[1000];
+    int b[1000];
+    int c[1000];
+    int i;
+
+    #pragma omp parallel for
+    for(i=0;i<1000;i++){
+        a[i] = i;
+        b[i] = 1;
+        c[i] = a[i] + b[i];
+    }
+
+    for(i=0;i<1000;i++){
+        printf("%d\n",c[i]);
+    }
+
+  return 0;
+}
+```
 
