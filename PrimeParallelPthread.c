@@ -30,7 +30,8 @@ int main(){
     }
 
     end = time(NULL);
-    // printf("%ld sec\n",end - start);
+
+    printf("%ld sec\n",end - start);
 
     return 0;
 }
