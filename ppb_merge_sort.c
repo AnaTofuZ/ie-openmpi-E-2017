@@ -12,7 +12,7 @@ typedef struct _thread_arg_t{
     int divided_count;
 } thread_arg_t;
 
-/* Œ‹‰Ê‚ğ•\¦‚·‚éŠÖ” */
+/* çµæœã‚’è¡¨ç¤ºã™ã‚‹é–¢æ•° */
 void printnum(int *data, int size) {
     int i;
     for (i = 0; i < size; i++) 
@@ -21,12 +21,12 @@ void printnum(int *data, int size) {
     return;
 }
 
-/*@swap@*/
+/*ã€€swapã€€*/
 void swap(int *pn1, int *pn2) {
     int tmp = *pn1; *pn1 = *pn2; *pn2 = tmp;
 }
 
-/* quick sort‚ğpn‚É‘Î‚µ‚Äs‚¤ */
+/* quick sortã‚’pnã«å¯¾ã—ã¦è¡Œã† */
 void quick_sort(int *pn, int left, int right) {
     int i, j;
 
@@ -39,13 +39,13 @@ void quick_sort(int *pn, int left, int right) {
     }
     swap(pn + left, pn + j);
 
-    /* Ä‹A“I‚É quick sort */
+    /* å†å¸°çš„ã« quick sort */
     quick_sort(pn, left, j - 1);
     quick_sort(pn, j + 1, right);
 
 }
 
-/* mergesort‚ğqn1Aqn2‚É‘Î‚µ‚Äs‚¢Aqn‚ğ•Ô‚· */
+/* mergesortã‚’qn1ã€qn2ã«å¯¾ã—ã¦è¡Œã„ã€qnã‚’è¿”ã™ */
 void merge(int *pn1, int len1, int *pn2, int len2, int *pn) {
     int u1 = 0, u2 = 0;
 
@@ -61,8 +61,8 @@ void merge(int *pn1, int len1, int *pn2, int len2, int *pn) {
 
 /*---------------------------------
  * thread_merge_func
- * ‚à‚µ•ª‰ğ‚Å‚«‚ê‚ÎqƒXƒŒƒbƒh‚ğ¶¬‚µd–‚ğ•ª‰ğ
- * I—¹ŒãAŒ‹‰Ê‚ğ“‡‚µ‚Äe‚É•Ô‚·B
+ * ã‚‚ã—åˆ†è§£ã§ãã‚Œã°å­ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ç”Ÿæˆã—ä»•äº‹ã‚’åˆ†è§£
+ * çµ‚äº†å¾Œã€çµæœã‚’çµ±åˆã—ã¦è¦ªã«è¿”ã™ã€‚
  *---------------------------------*/
 void thread_merge_func(void *arg) {
     thread_arg_t *targ = (thread_arg_t *)arg;
@@ -71,12 +71,12 @@ void thread_merge_func(void *arg) {
     thread_arg_t c_targ[2];
 
     if (targ->length <= 1) {
-        /* ‚±‚êˆÈã•ªŠ„‚Å‚«‚È‚¢ê‡‚Íˆ—‚µ‚È‚¢*/
+        /* ã“ã‚Œä»¥ä¸Šåˆ†å‰²ã§ããªã„å ´åˆã¯å‡¦ç†ã—ãªã„*/
     }else if (targ->divided_count >= MAX_DIV) {
-        /* •ªŠ„ğŒOver */
+        /* åˆ†å‰²æ¡ä»¶Over */
         quick_sort(targ->pn, 0, targ->length - 1); 
     } else {
-        /* ”z—ñ‚Ì•ª‰ğ */
+        /* é…åˆ—ã®åˆ†è§£ */
         len1 = targ->length / 2;
         len2 = targ->length - len1;
 
@@ -92,17 +92,17 @@ void thread_merge_func(void *arg) {
         c_targ[1].length = len2;
         c_targ[1].divided_count = targ->divided_count + 1;
 
-        /* qƒXƒŒƒbƒh‚Ì¶¬ */
+        /* å­ã‚¹ãƒ¬ãƒƒãƒ‰ã®ç”Ÿæˆ */
         pthread_create(&handle[0], NULL, (void *)thread_merge_func,
                 (void *)&c_targ[0]);
         pthread_create(&handle[1], NULL, (void *)thread_merge_func,
                 (void *)&c_targ[1]);
 
-        /* qƒXƒŒƒbƒh‚ÌI—¹‚ğ‘Ò‚Â */
+        /* å­ã‚¹ãƒ¬ãƒƒãƒ‰ã®çµ‚äº†ã‚’å¾…ã¤ */
         pthread_join(handle[0], NULL);
         pthread_join(handle[1], NULL);
 
-        /* Œ‹‰Ê‚ğƒ}[ƒW‚·‚é */
+        /* çµæœã‚’ãƒãƒ¼ã‚¸ã™ã‚‹ */
         merge(c_targ[0].pn, len1, c_targ[1].pn, len2, targ->pn);
 
         free(c_targ[0].pn);
@@ -119,24 +119,24 @@ int main() {
     int i;
     thread_arg_t targ;
 
-    /* ƒ‰ƒ“ƒ_ƒ€‚È”—ñ‚ğ‰Šú‰» */
+    /* ãƒ©ãƒ³ãƒ€ãƒ ãªæ•°åˆ—ã‚’åˆæœŸåŒ– */
     targ.pn = (int *)malloc(sizeof(int) * DATA_SIZE);
     srand((unsigned int)time(NULL));
     for (i = 0; i < DATA_SIZE; i++)
         targ.pn[i] = rand();
 
-    /* ƒ\[ƒg‘O‚Ì”—ñ‚Ì•\¦ */
+    /* ã‚½ãƒ¼ãƒˆå‰ã®æ•°åˆ—ã®è¡¨ç¤º */
     printf("before\n");
     printnum(targ.pn, DATA_SIZE);
 
-    /* ƒpƒ‰ƒ[ƒ^‚Ìİ’è */
-    targ.divided_count = 0;         /* •ªŠ„” */
-    targ.length = DATA_SIZE;        /* ƒf[ƒ^‚ÌŒÂ” */
+    /* ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®š */
+    targ.divided_count = 0;         /* åˆ†å‰²æ•° */
+    targ.length = DATA_SIZE;        /* ãƒ‡ãƒ¼ã‚¿ã®å€‹æ•° */
 
     /* merge-sort */
     thread_merge_func(&targ);
 
-    /* ƒ\[ƒgŒã‚Ì”—ñ‚Ì•\¦ */
+    /* ã‚½ãƒ¼ãƒˆå¾Œã®æ•°åˆ—ã®è¡¨ç¤º */
     printf("after\n");
     printnum(targ.pn, DATA_SIZE);
 
