@@ -1,4 +1,3 @@
-
 #ifdef _OEPNMP
 #include <omp.h>
 #endif
@@ -10,45 +9,72 @@
 #define MAX_DATA 100000000
 
 static long temp[MAX_DATA];    /* 最小でも配列と同じサイズの領域が必要 */
+static int log;
 
 void MergeSort(long x[ ], long left, long right);
-void main(void);
+
+static unsigned long count=0;
+static unsigned long count2=0;
+static unsigned long count3=0;
 
   /* 配列 x[ ] の left から right の要素のマージソートを行う */
 void MergeSort(long x[ ], long left, long right)
 {
-    long mid, i, j, k;
+    long mid,  j, k;
 	
-    if (left >= right)              /* 配列の要素がひとつなら */
-        return;                     /* 何もしないで戻る */
 
-                                    /* ここでは分割しているだけ */
+
+//	printf("%d,%d,left=%d,right=%d\n",count,count2,left,right);
+    if (left >= right){              /* 配列の要素がひとつなら */
+        return;                     /* 何もしないで戻る */
+	}
+
     mid = (left + right) / 2;       /* 中央の値より */
-    MergeSort(x, left, mid);        /* 左を再帰呼び出し */
-    MergeSort(x, mid + 1, right);   /* 右を再帰呼び出し */
 
 //	printf("mid=%d\n",mid);
+	  MergeSort(x, left, mid);        /* 左を再帰呼び出し */
+	  MergeSort(x, mid + 1, right);   /* 右を再帰呼び出し */
+
+	#pragma omp sections
+	{
+	#pragma omp section
+	{
       /* x[left] から x[mid] を作業領域にコピー */
-    for (i = left; i <= mid; i++)
+	#pragma omp parallel for schedule(guided)
+    for (long i  = left; i <= mid; i++)
         temp[i] = x[i];
+	}
 
+
+	#pragma omp section
+	{
       /* x[mid + 1] から x[right] は逆順にコピー */
-    for (i = mid + 1, j = right; i <= right; i++, j--)
+	j = right;
+	#pragma omp parallel for schedule(guided)
+    for (long i = mid + 1; i <= right; i++)
+	{
         temp[i] = x[j];
+	}
+	}
+	}
 
-    i = left;         /* i とj は作業領域のデーターを */
+    long i = left;         /* i とj は作業領域のデーターを */
     j = right;        /* k は配列の要素を指している */
 
-    for (k = left; k <= right; k++)    /* 小さい方から配列に戻す */
+	#pragma omp parallel for schedule(guided)
+    for (k = left; k <= right; k++){    /* 小さい方から配列に戻す */
         if (temp[i] <= temp[j])        /* ここでソートされる */
             x[k] = temp[i++];
         else
             x[k] = temp[j--];
+	}
+
+
 }
 
 
 
-void main(void)
+int main(void)
 {
 
 	static long x[MAX_DATA] = {0};
@@ -72,7 +98,7 @@ void main(void)
 */
 
     start = clock();
-    MergeSort(x, 0, MAX_DATA - 1);
+	MergeSort(x, (long)0, (long)MAX_DATA - 1);
     end = clock();
 
       /* ソート後のデータを表示 */
@@ -82,5 +108,6 @@ void main(void)
 */
 
     printf("%.2f秒かかりました\n",(double)(end-start)/CLOCKS_PER_SEC);
+	return 0;
 }
 
