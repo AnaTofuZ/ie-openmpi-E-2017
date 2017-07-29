@@ -7,12 +7,9 @@
 #define N 10000000   //N以下を調べる
 
 int main(){
-
     int i,j,n;
-    // time_t start,end;
     struct timeval start,end;
     
-    // start = time(NULL);
     gettimeofday(&start, NULL); //測定開始
 
     for(i = 2; i <= N; i++){
@@ -23,10 +20,9 @@ int main(){
             if(n > 1) break;    //√iまでの約数の個数が2個だと試し割りを終了
         }
         //√iまでの約数の個数が1個の時(約数が1の時)素数である
-        // if(n == 1) printf("%d\n",i);
+        if(n == 1) printf("%d\n",i);
     }
 
-    // end = time(NULL);
     gettimeofday(&end, NULL);   //測定終了
     printf("%f sec\n", (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec)*1.0E-6);
 }
