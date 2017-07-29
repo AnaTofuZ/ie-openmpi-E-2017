@@ -34,7 +34,7 @@ OpenMP Architecture Review Board（ARB）によって規定されている業界
 - 最近のコンパイラに標準搭載され始めている
     - Macでも動くぞ!!
 
----
++++
 
 ### サンプルコード
 
