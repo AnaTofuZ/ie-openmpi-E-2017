@@ -65,6 +65,20 @@ int main(){
 @[10](指示子を使うことで簡単に並列化出来る)
 
 ---
+## 実験概要
+
++++
+
+- OpenMPでの並列化の方法を何通りかで検証を行う
+- 単一処理との速度比較
+- またPthredを用いた場合の実装と比較し挙動の違いを確認する
+
++++
+
+- 実験環境
+- 10コアCPUのFedoraVMで実行
+
+---
 
 ## 素数を求める
 
@@ -72,17 +86,27 @@ int main(){
 
 ### 単一処理
 
----?code=Prime.c
++++?code=Prime.c
 
-10000000 以下の素数を求めている
-素数を求めるアルゴリズムは,エラトステネスの篩を参考にしている
+- エラトステネスの篩を参考にしたアルゴリズムで実装
+
++++ 単一処理の場合
+
+- printfあり
+    -  15.987181 sec
+- printfなし
+    -  11.967701 sec
+
++++ OpenMPを用いた実装?code=PrimeParallel.c
+
+
 
 ---
 
-# 参考資料
+## 参考資料
 
 - [今回のリポジトリ](https://github.com/AnaTofuZ/ie-openmpi-E-2017)
-- [POSIX THREADS AND OPENMP(SHARED MEMORY PARADIGM)](https://www.cs.uic.edu/~ajayk/c567/Presentation_POSIX_OpenMP.pdf)
+- [POSIX THREADS AND OPENMP(SHARED MEMORY PARADIGM)](https://www.cs.uic.edu/~ajayk/c566/Presentation_POSIX_OpenMP.pdf)
 - [An Overview of OpenMP](http://www.openmp.org/wp-content/uploads/ntu-vanderpas.pdf)
 - [Sun Studio 12: OpenMP API ユーザーズガイド](https://docs.oracle.com/cd/E19205-01/820-1217/index.html)
 - [OpenMPの基礎](http://www.cms-initiative.jp/ja/events/20130425katagiri.pdf)
