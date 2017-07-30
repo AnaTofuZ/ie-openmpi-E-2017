@@ -99,7 +99,8 @@ int main(){
 - printfなし
     -  11.967701 sec
 
-+++ ?code=PrimeParallel.c
++++?code=PrimeParallel.c
+
 ### OpenMPを用いた実装OpenMPを用いた実装
 
 
