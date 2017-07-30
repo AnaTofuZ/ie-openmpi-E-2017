@@ -90,15 +90,17 @@ int main(){
 
 - エラトステネスの篩を参考にしたアルゴリズムで実装
 
-+++ 単一処理の場合
++++ 
+
+#### 単一処理の場合
 
 - printfあり
     -  15.987181 sec
 - printfなし
     -  11.967701 sec
 
-+++ OpenMPを用いた実装?code=PrimeParallel.c
-
++++ ?code=PrimeParallel.c
+### OpenMPを用いた実装OpenMPを用いた実装
 
 
 ---
