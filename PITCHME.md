@@ -3,7 +3,7 @@
 ## OpenMP
 
 
- [このへん](http://paiza.hatenablog.com/entry/2017/06/22/GitHub%E3%81%A0%E3%81%91%E3%81%A7%E8%B6%85%E9%AB%98%E6%A9%9F%E8%83%BD%E3%81%AA%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%89%E8%B3%87%E6%96%99%E3%81%8C%E4%BD%9C%E3%82%8C%E3%82%8B%E3%80%8CGitPitch%E3%80%8D%E3%81%AE)
+ [Github](https://github.com/AnaTofuZ/ie-openmpi-E-2017)
 
 
 ---
@@ -62,4 +62,14 @@ int main(){
   return 0;
 }
 ```
+---
 
+# 参考資料
+
+- [今回のリポジトリ](https://github.com/AnaTofuZ/ie-openmpi-E-2017)
+- [POSIX THREADS AND OPENMP(SHARED MEMORY PARADIGM)](https://www.cs.uic.edu/~ajayk/c567/Presentation_POSIX_OpenMP.pdf)
+- [An Overview of OpenMP](http://www.openmp.org/wp-content/uploads/ntu-vanderpas.pdf)
+- [Sun Studio 12: OpenMP API ユーザーズガイド](https://docs.oracle.com/cd/E19205-01/820-1217/index.html)
+- [OpenMPの基礎](http://www.cms-initiative.jp/ja/events/20130425katagiri.pdf)
+- [OpenMPで多重forループを並列化して配列に格納する方法](http://auewe.hatenablog.com/entry/2013/10/16/054345)
+- [マルチコアCPUのための並列プログラミング](https://www.amazon.co.jp/%E3%83%9E%E3%83%AB%E3%83%81%E3%82%B3%E3%82%A2CPU%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E4%B8%A6%E5%88%97%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0-%E5%AE%89%E7%94%B0-%E7%B5%B9%E5%AD%90/dp/4798014621)
