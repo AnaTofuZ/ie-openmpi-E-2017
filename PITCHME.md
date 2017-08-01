@@ -145,33 +145,32 @@ int main(){
 
 ### 処理速度比較
 
-<canvas data-chart="line">
-    データ個数, 1000個, 10000個, 100000個, 1000000個, 10000000個, 100000000個
-	single, 0.00, 0.00, 0.04, 0.254, 2.592, 30.526
-	スレッド多すぎparallel, 0.00, 0.01, 0.108, 0.614, 5.88, 65.882
-	parallel, 0.00, 0.00, 0.04, 0.27, 2.648, 30.54
-</canvas>
 
-
-+++
 <canvas data-chart="line">
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-type: 'line',
-    data: {
-    labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-    datasets: [{
-        label: 'apples',
-        data: [12, 19, 3, 17, 6, 3, 7],
-        backgroundColor: "rgba(153,255,51,0.4)"
-    }, {
-        label: 'oranges',
-        data: [2, 29, 5, 5, 2, 3, 10],
-        backgroundColor: "rgba(255,153,0,0.4)"
-        }]
+ <!--_
+ {
+  "data": {
+   "labels": ["1000個", "10000個","100000個","1000000個","10000000個","100000000個"],
+   "datasets": [
+    {
+     "data":[0.00, 0.00, 0.04, 0.254, 2.592, 30.526],
+     "label":"Single","backgroundColor":"rgba(20,220,220,.8)"
+    },
+    {
+     "data":[0.00, 0.01, 0.108, 0.614, 5.88, 65.882],
+     "label":"スレッド多すぎparallel","backgroundColor":"rgba(220,120,120,.8)"
     }
-});
+   {
+     "data":[0.00, 0.00, 0.04, 0.27, 2.648, 30.54],
+     "label":"parallel","backgroundColor":"rgba(171,255,22,1)"
+    }
+]
+  },_
+  "options": { "responsive": "true" }
+ }
+ -->
 </canvas>
+
 ---
 
 ### 処理速度からの考察
