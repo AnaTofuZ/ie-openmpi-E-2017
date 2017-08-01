@@ -172,7 +172,7 @@ int main(){
 -->
 </canvas>
 
----
++++
 
 
 ### 処理速度からの考察
@@ -215,10 +215,16 @@ int main(){
 - printfなし
     -  11.967701 sec
 
-+++?code=PrimeParallel.c
++++
 
 ### OpenMPを用いた実装
 
+
++++?code=PrimeParallel.c
+
++++
+
+- 指示子を使いfor文の中を並列実行している．
 
 ---
 
