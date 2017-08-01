@@ -201,7 +201,7 @@ int main(){
 
 #### 実行結果
 
-![graphle](img/hoge.jpg)
+![graphle](pi_graph_hiro.png)
 
 +++ 
 
@@ -212,6 +212,7 @@ int main(){
     - スレッドの生成コストが影響している 
 
 ---
+
 ### 積分法での実装
 
 ++++
