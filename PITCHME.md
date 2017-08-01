@@ -160,10 +160,10 @@ int main(){
     {
      "data":[0.00, 0.01, 0.108, 0.614, 5.88, 65.882],
      "label":"スレッド多すぎparallel","backgroundColor":"rgba(220,120,120,.8)"
-    }
+    },
    {
      "data":[0.00, 0.00, 0.04, 0.27, 2.648, 30.54],
-     "label":"parallel","backgroundColor":"rgba(171,255,22,1)"
+     "label":"parallel","backgroundColor":"rgba(171,255,22,.1)"
     }
     ]
   },_
