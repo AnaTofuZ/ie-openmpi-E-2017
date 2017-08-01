@@ -106,7 +106,13 @@ int main(){
 - 再帰的な関数で書かれてる
 
 ---
+#### 実行速度
 
+- 要素数1億 で 5回実行時の平均
+	- 30.526[sec]
+
+---
+	
 ### OpenMPを用いた実装(Thread作りすぎ問題)
 ---?code=margesort_parallel_miss.c
 
@@ -144,6 +150,8 @@ int main(){
 ---
 
 ### 処理速度比較
+
+![margesort](margesort.png)
 
 ---
 
