@@ -33,49 +33,42 @@ void MergeSort(long x[ ], long left, long right)
 
 //	printf("mid=%d\n",mid);
 
-/*	#pragma omp parallel num_threads(10)
-	{
-	  #pragma omp sections
+
+	  #pragma omp parallel shared(x),firstprivate(left,mid,right)
 	  {
-	  #pragma omp section
-	  MergeSort(x, left, mid);        // 左を再帰呼び出し
-	  #pragma omp section
-	  MergeSort(x, mid + 1, right);   // 右を再帰呼び出し
+		#pragma omp sections
+		{
+		  #pragma omp section
+		  MergeSort(x, left, mid);        // 左を再帰呼び出し
+		  #pragma omp section
+		  MergeSort(x, mid + 1, right);   // 右を再帰呼び出し
+		}
 	  }
-	}
-	*/
 
-	  MergeSort(x, left, mid);        // 左を再帰呼び出し
-	  MergeSort(x, mid + 1, right);   // 右を再帰呼び出し
+/*		#pragma omp parallel sections
+		{
+		  #pragma omp section
+		  MergeSort(x, left, mid);        // 左を再帰呼び出し
+		  #pragma omp section
+		  MergeSort(x, mid + 1, right);   // 右を再帰呼び出し
+		}
+		*/
 
 
 
-
-	#pragma omp parallel num_threads(2) private(i,j),shared(temp,x,left,right,mid)
-	{
-	#pragma omp sections 
-	{
       /* x[left] から x[mid] を作業領域にコピー */
-	#pragma omp section
-	{
     for (i  = left; i <= mid; i++)
         temp[i] = x[i];
-	}
 
 
       /* x[mid + 1] から x[right] は逆順にコピー */
-	#pragma omp section
-	{
 	j = right;
     for (i = mid + 1; i <= right; i++)
 	{
         temp[i] = x[j];
 		j--;
 	}
-	}
 
-	}
-	}
 
     i = left;         /* i とj は作業領域のデーターを */
     j = right;        /* k は配列の要素を指している */
@@ -123,6 +116,7 @@ int main(void)
     printf("ソート前\n");
     for (i = 0; i < 10; i++)
         printf("%d\t", y[i]);
+	printf("\n");
 
 
     start = clock();
@@ -134,12 +128,15 @@ int main(void)
     fprintf(stderr,"ソート後\n");
     for (i = 0; i < 10; i++)
         fprintf(stderr,"%d\t", y[i]);
+	printf("\n");
 
 
     start = clock();
 	MergeSort(x, (long)0, (long)MAX_DATA - 1);
     end = clock();
     printf("%.2f秒かかりました\n",(double)(end-start)/CLOCKS_PER_SEC);
+
+
 
       /* ソート後のデータを表示 */
 /*    printf("ソート後\n");
