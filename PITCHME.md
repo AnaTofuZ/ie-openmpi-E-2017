@@ -151,9 +151,6 @@ int main(){
 
 ### 処理速度比較
 
-![margesort](margesort.png)
-
----
 
 ![graphle](img/margesort_kaito.png)
 
