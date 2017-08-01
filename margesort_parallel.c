@@ -6,19 +6,16 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define MAX_DATA 100000000
+#define MAX_DATA 1000
 
 static long temp[MAX_DATA];    /* 最小でも配列と同じサイズの領域が必要 */
-static int log;
 
-void MergeSort(long x[ ], long left, long right);
+void MergeSort(long x[ ], long left, long right, long depth);
 
-static unsigned long count=0;
-static unsigned long count2=0;
-static unsigned long count3=0;
+static long depth=0;
 
   /* 配列 x[ ] の left から right の要素のマージソートを行う */
-void MergeSort(long x[ ], long left, long right)
+void MergeSort(long x[ ], long left, long right, long depth)
 {
     long mid, i, j, k;
 	
@@ -34,7 +31,7 @@ void MergeSort(long x[ ], long left, long right)
 //	printf("mid=%d\n",mid);
 
 
-	  #pragma omp parallel shared(x),firstprivate(left,mid,right)
+/*	  #pragma omp parallel num_threads(1) shared(x),firstprivate(left,mid,right)
 	  {
 		#pragma omp sections
 		{
@@ -44,6 +41,7 @@ void MergeSort(long x[ ], long left, long right)
 		  MergeSort(x, mid + 1, right);   // 右を再帰呼び出し
 		}
 	  }
+*/
 
 /*		#pragma omp parallel sections
 		{
@@ -52,8 +50,93 @@ void MergeSort(long x[ ], long left, long right)
 		  #pragma omp section
 		  MergeSort(x, mid + 1, right);   // 右を再帰呼び出し
 		}
-		*/
+*/
 
+
+/*
+
+	  if(isCreateTreadL == 0 && isCreateTreadR == 0){
+		#pragma omp parallel num_threads(1) shared(x),firstprivate(left,mid,right)
+		{
+		  MergeSort(x, left, mid,1,0);        // 左を再帰呼び出し
+		  MergeSort(x, mid + 1, right,0,1);   // 右を再帰呼び出し
+		}
+	  }else if(isCreateTreadL == 0 && isCreateTreadR == 1){
+		MergeSort(x, mid + 1, right,0,1);   // 右を再帰呼び出し
+		#pragma omp parallel num_threads(1) shared(x),firstprivate(left,mid,right)
+		{
+		  MergeSort(x, left, mid,1,0);        // 左を再帰呼び出し
+		}
+	  }else if(isCreateTreadL == 1 && isCreateTreadR == 0){
+		MergeSort(x, left, mid,1,0);        // 左を再帰呼び出し
+		#pragma omp parallel num_threads(1) shared(x),firstprivate(left,mid,right)
+		{
+		  MergeSort(x, mid + 1, right,0,1);   // 右を再帰呼び出し
+		}
+	  }
+*/
+
+
+/*
+	  if(isCreateTreadL == 0 && isCreateTreadR == 0){
+		#pragma omp parallel num_threads(1) shared(x),firstprivate(left,mid,right)
+		{
+		  #pragma omp sections
+		  {
+			#pragma omp section
+			MergeSort(x, left, mid,1,0);        // 左を再帰呼び出し
+			#pragma omp section
+			MergeSort(x, mid + 1, right,0,1);   // 右を再帰呼び出し
+		  }
+		}
+	  }else if(isCreateTreadL == 0 && isCreateTreadR == 1){
+		#pragma omp parallel num_threads(1) shared(x),firstprivate(left,mid,right)
+		{
+		  #pragma omp sections
+		  {
+			#pragma omp section
+			MergeSort(x, left, mid,1,1);        // 左を再帰呼び出し
+			#pragma omp section
+			MergeSort(x, mid + 1, right,0,1);   // 右を再帰呼び出し
+		  }
+		}
+	  }else if(isCreateTreadL == 1 && isCreateTreadR == 0){
+		#pragma omp parallel num_threads(1) shared(x),firstprivate(left,mid,right)
+		{
+		  #pragma omp sections
+		  {
+			#pragma omp section
+			MergeSort(x, mid + 1, right,1,1);   // 右を再帰呼び出し
+			#pragma omp section
+			MergeSort(x, left, mid,1,0);        // 左を再帰呼び出し
+		  }
+		}
+	  }else if(isCreateTreadL == 1 && isCreateTreadR == 1){
+		MergeSort(x, left, mid,1,1);        // 左を再帰呼び出し
+		MergeSort(x, mid + 1, right,1,1);   // 右を再帰呼び出し
+	  }
+
+
+*/
+
+
+	if((omp_get_thread_num() == (omp_get_max_threads()-1)) && (omp_get_max_threads() < (2^depth))){
+	  #pragma omp parallel num_threads(1) shared(x),firstprivate(left,mid,right,depth)
+	  {
+		#pragma omp sections
+		{
+		  #pragma omp section
+		  MergeSort(x, left, mid,depth+1);        // 左を再帰呼び出し
+		  #pragma omp section
+		  MergeSort(x, mid + 1, right,depth+1);   // 右を再帰呼び出し
+		}
+	  }
+
+	}else{
+	  MergeSort(x, left, mid,depth+1);        // 左を再帰呼び出し
+	  MergeSort(x, mid + 1, right,depth+1);   // 右を再帰呼び出し
+
+	}
 
 
       /* x[left] から x[mid] を作業領域にコピー */
@@ -118,9 +201,9 @@ int main(void)
         printf("%d\t", y[i]);
 	printf("\n");
 
-
     start = clock();
-	MergeSort(y, (long)0, (long)10 - 1);
+	
+	MergeSort(y, (long)0, (long)10 - 1,0);
     end = clock();
     printf("%.2f秒かかりました\n",(double)(end-start)/CLOCKS_PER_SEC);
 
@@ -130,9 +213,8 @@ int main(void)
         fprintf(stderr,"%d\t", y[i]);
 	printf("\n");
 
-
     start = clock();
-	MergeSort(x, (long)0, (long)MAX_DATA - 1);
+	MergeSort(x, (long)0, (long)MAX_DATA - 1,0);
     end = clock();
     printf("%.2f秒かかりました\n",(double)(end-start)/CLOCKS_PER_SEC);
 
