@@ -154,7 +154,7 @@ int main(){
 
 
 +++
-<script>
+<canvas data-chart="line">
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
 type: 'line',
@@ -171,7 +171,7 @@ type: 'line',
         }]
     }
 });
-</script>
+</canvas>
 ---
 
 ### 処理速度からの考察
