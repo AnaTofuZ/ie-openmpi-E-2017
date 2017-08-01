@@ -1,17 +1,23 @@
 
+#ifdef _OEPNMP
+#include <omp.h>
+#endif
+
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
-#define MAX_DATA 10
+#define MAX_DATA 1000
 
-int temp[MAX_DATA];    /* 最小でも配列と同じサイズの領域が必要 */
+static long temp[MAX_DATA];    /* 最小でも配列と同じサイズの領域が必要 */
 
-void MergeSort(int x[ ], int left, int right);
+void MergeSort(long x[ ], long left, long right);
 void main(void);
 
   /* 配列 x[ ] の left から right の要素のマージソートを行う */
-void MergeSort(int x[ ], int left, int right)
+void MergeSort(long x[ ], long left, long right)
 {
-    int mid, i, j, k;
+    long mid, i, j, k;
 	
     if (left >= right)              /* 配列の要素がひとつなら */
         return;                     /* 何もしないで戻る */
@@ -39,21 +45,29 @@ void MergeSort(int x[ ], int left, int right)
             x[k] = temp[j--];
 }
 
+
+
 void main(void)
 {
+
+	static long x[MAX_DATA] = {0};
+	fprintf(stderr, "exe1\n");
     int i;
+    clock_t start,end;
       /* ソートされるデータ */
-    int x[ ] = {9, 4, 6, 2, 1, 8, 0, 3, 7, 5};
 
-      /* ソート前のデータを表示 */
-    printf("ソート前\n");
-    for (i = 0; i < MAX_DATA; i++)
-        printf("%d\t", x[i]);
+    srand((unsigned)time(NULL));
 
+    for (long j=0; j<MAX_DATA; j++) {
+      x[j] = rand();
+
+    }
+
+    start = clock();
     MergeSort(x, 0, MAX_DATA - 1);
+    end = clock();
 
-      /* ソート後のデータを表示 */
-    printf("ソート後\n");
-    for (i = 0; i < MAX_DATA; i++)
-        printf("%d\t", x[i]);
+
+    printf("%.2f秒かかりました\n",(double)(end-start)/CLOCKS_PER_SEC);
 }
+

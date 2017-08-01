@@ -1,0 +1,18 @@
+#コードのシンタックスハイライトの設定
+highlight : monokai
+
+
+#トランジションの設定
+transition : fade
+
+
+#チャート / グラフ機能の設定
+charts : true
+
+#フットノートの設定
+footnote : "© ie.openmp.teamE."
+
+
+#スライドのページ数表示の設定
+slide-number: true
+
