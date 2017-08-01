@@ -101,7 +101,7 @@ int main(){
 
 +++?code=PrimeParallel.c
 
-### OpenMPを用いた実装OpenMPを用いた実装
+### OpenMPを用いた実装
 
 
 ---

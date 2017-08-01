@@ -38,5 +38,16 @@ void calc_pi(void *arg){
 
     int* targ = (int *)arg;
 
-    int c_start,c_end,rane,limit;
+    int c_start,c_end,range,limit;
+
+    range = ITERATION/THREAD;
+    c_start = (*targ)*range;
+    c_end = ((*targ)+1)*range;
+
+    if ( c_end >ITERATION) c_end = ITERATION;
+
+    for (int i = 0; i < ITERATION; i++) {
+
+    }
+
 }
