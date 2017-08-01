@@ -145,7 +145,7 @@ int main(){
 
 ### 処理速度比較
 
-
+---
 <canvas data-chart="line">
  <!--_
  {
