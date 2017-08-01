@@ -146,9 +146,10 @@ int main(){
 ### 処理速度比較
 
 ---
+
 <canvas data-chart="line">
- <!--_
- {
+<!--_
+{
   "data": {
    "labels": ["1000個", "10000個","100000個","1000000個","10000000個","100000000個"],
    "datasets": [
@@ -164,11 +165,11 @@ int main(){
      "data":[0.00, 0.00, 0.04, 0.27, 2.648, 30.54],
      "label":"parallel","backgroundColor":"rgba(171,255,22,1)"
     }
-]
+    ]
   },_
   "options": { "responsive": "true" }
  }
- -->
+-->
 </canvas>
 
 ---
