@@ -7,7 +7,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define MAX_DATA 100000000
+#define MAX_DATA 1000
 
 static long temp[MAX_DATA];    /* 最小でも配列と同じサイズの領域が必要 */
 
@@ -27,7 +27,6 @@ void MergeSort(long x[ ], long left, long right)
     MergeSort(x, left, mid);        /* 左を再帰呼び出し */
     MergeSort(x, mid + 1, right);   /* 右を再帰呼び出し */
 
-//	printf("mid=%d\n",mid);
       /* x[left] から x[mid] を作業領域にコピー */
     for (i = left; i <= mid; i++)
         temp[i] = x[i];
@@ -64,22 +63,10 @@ void main(void)
 
     }
 
-      /* ソート前のデータを表示 */
-/*    printf("ソート前\n");
-    for (i = 0; i < MAX_DATA; i++)
-        printf("%d\t", x[i]);
-
-*/
-
     start = clock();
     MergeSort(x, 0, MAX_DATA - 1);
     end = clock();
 
-      /* ソート後のデータを表示 */
-/*    printf("ソート後\n");
-    for (i = 0; i < MAX_DATA; i++)
-        printf("%d\t", x[i]);
-*/
 
     printf("%.2f秒かかりました\n",(double)(end-start)/CLOCKS_PER_SEC);
 }

@@ -6,7 +6,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define MAX_DATA 100000000
+#define MAX_DATA 1000
 
 static long temp[MAX_DATA];    /* 最小でも配列と同じサイズの領域が必要 */
 
@@ -28,10 +28,9 @@ void MergeSort(long x[ ], long left, long right, long depth)
     mid = (left + right) / 2;       /* 中央の値より */
 
 
-	if((omp_get_thread_num() == (omp_get_max_threads()-1)) && (omp_get_max_threads() < (2^depth))){
 	  #pragma omp parallel num_threads(1) shared(x),firstprivate(left,mid,right,depth)
 	  {
-		#pragma omp sections nowait
+		#pragma omp sections
 		{
 		  #pragma omp section
 		  MergeSort(x, left, mid,depth+1);        // 左を再帰呼び出し
@@ -39,12 +38,6 @@ void MergeSort(long x[ ], long left, long right, long depth)
 		  MergeSort(x, mid + 1, right,depth+1);   // 右を再帰呼び出し
 		}
 	  }
-
-	}else{
-	  MergeSort(x, left, mid,depth+1);        // 左を再帰呼び出し
-	  MergeSort(x, mid + 1, right,depth+1);   // 右を再帰呼び出し
-
-	}
 
 
       /* x[left] から x[mid] を作業領域にコピー */
