@@ -3,7 +3,7 @@
 ## OpenMP
 
 
- [このへん](http://paiza.hatenablog.com/entry/2017/06/22/GitHub%E3%81%A0%E3%81%91%E3%81%A7%E8%B6%85%E9%AB%98%E6%A9%9F%E8%83%BD%E3%81%AA%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%89%E8%B3%87%E6%96%99%E3%81%8C%E4%BD%9C%E3%82%8C%E3%82%8B%E3%80%8CGitPitch%E3%80%8D%E3%81%AE)
+ [Github](https://github.com/AnaTofuZ/ie-openmpi-E-2017)
 
 
 ---
@@ -62,4 +62,122 @@ int main(){
   return 0;
 }
 ```
+@[10](指示子を使うことで簡単に並列化出来る)
 
+---
+## 実験概要
+
++++
+
+- OpenMPでの並列化の方法を何通りかで検証を行う
+- 単一処理との速度比較
+- またPthredを用いた場合の実装と比較し挙動の違いを確認する
+
++++
+
+- 実験環境
+- 10コアCPUのFedoraVMで実行
+
+---
+
+## マージソートを並列化する
+マージソートを並列化する。方法としては,マージソート関数を再帰的に書き,
+その関数を各スレッドで同時実行するというもの。  
+今回は,逐次処理,再帰的に呼ぶ際にThreadを作成する並列処理,同時実行分のみThreadを作成
+する並列処理の3つで比較した。
+
+### 単一処理
+### OpenMPを用いた実装(Thread作りすぎ問題)
+---?code=margesort_parallel_miss.c
+
+#### 概要
+
+- parallel 指示構文で Thread の生成コストがかかる
+	- マージソート関数が呼ばれるたびに生成コストがかかる
+
+- 膨大な数のThreadが作られるため遅い
+
+#### 実行速度
+
+- 要素数1億 で 5回実行時の平均
+	- 65.882[sec]
+
+
+### OpenMPを用いた実装(完成版)
+---?code=margesort_parallel.c
+
+#### 概要
+- Thread数はその階層の同時実行数に足りない分だけ生成
+	- その階層の同時実行数 = 2^階層数
+
+- 実行時間は並列化なしのマージソートとほぼ同じ
+
+#### 実行速度
+
+- 要素数1億 で 5回実行時の平均
+	- 30.54[sec]
+
+### 処理速度比較
+<canvas data-chart="line">
+  データ個数, 1000個, 10000個, 100000個, 1000000個, 10000000個, 100000000個
+  single, 0.00, 0.00, 0.04, 0.254, 2.592, 30.526
+  スレッド多すぎparallel, 0.00, 0.01, 0.108, 0.614, 5.88, 65.882
+  parallel, 0.00, 0.00, 0.04, 0.27, 2.648, 30.54
+</canvas>
+
+### 処理速度からの考察
+
+- Threadを作りすぎると並列化した方が遅くなる
+	- Threadの作成コストのせい
+- 逐次処理と同時実行数に必要分だけのThread作成した並列処理でも実行時間に大差なかった
+  - マージソートはもともと高速ソート方法であるためと推察
+
+<!---
+上記のグラフから見て取れるように,同時実行数に必要な分だけThreadを作成して並列化しても
+逐次的にやった場合と実行速度は大差なかった。また,再帰的に関数を呼んだ際にThreadを
+作成し割り振る,という方法ではThreadの作成コストに処理時間を割かれ,高速になるどころか
+逐次処理の2倍ほどの処理速度となった。この結果より,マージソートはもともと高速な
+ソート方法であったために,同時実行数に必要な分のThread数の生成コストでも
+違いが見られなかったのではないかと推察する。 
+-->
+
+
+---
+
+
+## 素数を求める
+
+
++++
+
+### 単一処理
+
++++?code=Prime.c
+
+- エラトステネスの篩を参考にしたアルゴリズムで実装
+
++++ 
+
+#### 単一処理の場合
+
+- printfあり
+    -  15.987181 sec
+- printfなし
+    -  11.967701 sec
+
++++?code=PrimeParallel.c
+
+### OpenMPを用いた実装
+
+
+---
+
+## 参考資料
+
+- [今回のリポジトリ](https://github.com/AnaTofuZ/ie-openmpi-E-2017)
+- [POSIX THREADS AND OPENMP(SHARED MEMORY PARADIGM)](https://www.cs.uic.edu/~ajayk/c566/Presentation_POSIX_OpenMP.pdf)
+- [An Overview of OpenMP](http://www.openmp.org/wp-content/uploads/ntu-vanderpas.pdf)
+- [Sun Studio 12: OpenMP API ユーザーズガイド](https://docs.oracle.com/cd/E19205-01/820-1217/index.html)
+- [OpenMPの基礎](http://www.cms-initiative.jp/ja/events/20130425katagiri.pdf)
+- [OpenMPで多重forループを並列化して配列に格納する方法](http://auewe.hatenablog.com/entry/2013/10/16/054345)
+- [マルチコアCPUのための並列プログラミング](https://www.amazon.co.jp/%E3%83%9E%E3%83%AB%E3%83%81%E3%82%B3%E3%82%A2CPU%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E4%B8%A6%E5%88%97%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0-%E5%AE%89%E7%94%B0-%E7%B5%B9%E5%AD%90/dp/4798014621)
