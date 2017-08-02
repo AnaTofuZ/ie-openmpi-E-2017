@@ -96,27 +96,30 @@ int main(){
 する並列処理の3つで比較した。
 -->
 
----
++++
 
 ### 単一処理
----?code=margesort.c
++++?code=margesort.c
 
 #### 概要
 - 普通のマージソート
 - 再帰的な関数で書かれてる
 
----
++++
+
 #### 実行速度
 
 - 要素数1億 で 5回実行時の平均
 	- 30.526[sec]
 
----
++++
+
 	
 ### OpenMPを用いた実装(Thread作りすぎ問題)
----?code=margesort_parallel_miss.c
++++?code=margesort_parallel_miss.c
 
----
+
++++
 
 #### 概要
 
@@ -132,9 +135,9 @@ int main(){
 ---
 
 ### OpenMPを用いた実装(完成版)
----?code=margesort_parallel.c
++++?code=margesort_parallel.c
 
----
++++
 
 #### 概要
 - Thread数はその階層の同時実行数に足りない分だけ生成
@@ -147,13 +150,13 @@ int main(){
 - 要素数1億 で 5回実行時の平均
 	- 30.54[sec]
 
----
++++
 
 ### 処理速度比較
 
 ![margesort](margesort.png)
 
----
++++
 
 ![graphle](img/margesort_kaito.png)
 
@@ -222,6 +225,7 @@ int main(){
 ---
 
 ### 積分法での実装
+
 
 ++++
 
