@@ -285,7 +285,6 @@ int main(){
 ![graphle](img/Prime_Yogi2.png)
 ---
 
----
 
 ### OpneMPアンチパターン
 
