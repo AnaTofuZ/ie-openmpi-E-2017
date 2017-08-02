@@ -233,7 +233,7 @@ int main(){
 
 #### 実行結果
 
-![graphle](test_yasuki.png)
+![graphle](img/test_yasuki.png)
 
 
 ## 素数を求める
@@ -269,6 +269,8 @@ int main(){
 
 
 +++?code=PrimeParallelPthread.c
+
++++
 
 ### 速度比較
 
